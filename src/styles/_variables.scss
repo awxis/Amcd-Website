@@ -1,0 +1,83 @@
+// ==========================================================================
+// Design tokens — change the whole site's look from here.
+// Emitted once as CSS custom properties (included only by src/styles.scss).
+// ==========================================================================
+
+:root {
+  // ---- Brand colours -------------------------------------------------------
+  --color-primary: #862e31; // Red Maroon – brand colour (buttons, links, heading accents)
+  --color-primary-dark: #6b2427; // hover / active states
+  --color-primary-darker: #4e1a1c; // footer background, hero overlay
+  --color-primary-light: #e8cfd0; // borders, dividers, subtle highlights
+  --color-primary-tint: #f8f0f0; // light section backgrounds
+  --color-accent: #c9a96e; // muted gold – small decorative highlights only
+  --color-text: #1f1f1f; // main body text
+  --color-text-muted: #6b6b6b; // secondary text
+  --color-white: #ffffff;
+  --color-bg: #ffffff;
+
+  // Text on dark (maroon) backgrounds
+  --color-text-on-dark: #ffffff;
+  --color-text-on-dark-muted: rgba(255, 255, 255, 0.82);
+  --color-border: var(--color-primary-light);
+
+  // ---- Typography ----------------------------------------------------------
+  --font-fallback: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Poppins', var(--font-fallback);
+  --font-body: 'Inter', var(--font-fallback);
+
+  // Fluid sizes (min at ~375px viewport, max at ~1200px)
+  --fs-h1: clamp(2.5rem, 2.05rem + 1.94vw, 3.5rem); // 40 → 56px
+  --fs-h2: clamp(1.875rem, 1.59rem + 1.21vw, 2.5rem); // 30 → 40px
+  --fs-h3: clamp(1.25rem, 1.14rem + 0.48vw, 1.5rem); // 20 → 24px
+  --fs-h4: 1.125rem;
+  --fs-body: clamp(1rem, 0.94rem + 0.24vw, 1.125rem); // 16 → 18px
+  --fs-lead: clamp(1.0625rem, 0.98rem + 0.36vw, 1.25rem); // 17 → 20px
+  --fs-small: 0.875rem;
+  --fs-eyebrow: 0.8125rem;
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  --lh-body: 1.6;
+  --lh-heading: 1.2;
+  --ls-eyebrow: 0.16em;
+
+  // ---- Spacing (8px scale) -------------------------------------------------
+  --space-1: 0.5rem; //  8px
+  --space-2: 1rem; // 16px
+  --space-3: 1.5rem; // 24px
+  --space-4: 2rem; // 32px
+  --space-5: 3rem; // 48px
+  --space-6: 4rem; // 64px
+  --space-7: 6rem; // 96px
+
+  // ---- Layout --------------------------------------------------------------
+  --container-max: 1200px;
+  --container-padding: clamp(1rem, 0.5rem + 2.5vw, 2rem);
+  --section-padding: clamp(3.5rem, 2.36rem + 4.85vw, 6rem); // 56 → 96px
+  --header-height: 72px;
+
+  // ---- Shape & depth -------------------------------------------------------
+  --radius-sm: 6px; // buttons
+  --radius-md: 12px; // cards
+  --radius-lg: 20px;
+  --shadow-card: 0 4px 20px rgba(134, 46, 49, 0.08);
+  --shadow-card-hover: 0 14px 36px rgba(134, 46, 49, 0.16);
+  --shadow-header: 0 2px 18px rgba(78, 26, 28, 0.08);
+
+  // ---- Motion --------------------------------------------------------------
+  --ease: ease;
+  --transition-fast: 0.2s var(--ease);
+  --transition-base: 0.3s var(--ease);
+  --reveal-duration: 0.7s;
+  --reveal-distance: 24px;
+}
+
+@media (min-width: 992px) {
+  :root {
+    --header-height: 84px;
+  }
+}

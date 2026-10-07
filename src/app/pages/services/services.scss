@@ -1,0 +1,29 @@
+@use 'mixins' as *;
+
+:host {
+  display: block;
+}
+
+// Centred, wrapping grid so an uneven last row stays balanced.
+.services-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+
+  > li {
+    flex: 0 1 100%;
+
+    @include up(md) {
+      flex-basis: calc((100% - var(--space-3)) / 2);
+    }
+
+    @include up(lg) {
+      flex-basis: calc((100% - 2 * var(--space-3)) / 3);
+    }
+
+    @include up(xl) {
+      flex-basis: calc((100% - 3 * var(--space-3)) / 4);
+    }
+  }
+}

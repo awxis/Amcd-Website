@@ -1,0 +1,12 @@
+// ==========================================================================
+// AMCD global stylesheet
+// Theme tokens live in styles/_variables.scss — edit there to restyle the site.
+// ==========================================================================
+
+@use 'styles/variables';
+@use 'styles/base';
+@use 'styles/typography';
+@use 'styles/buttons';
+@use 'styles/layout';
+@use 'styles/cards';
+@use 'styles/motion';

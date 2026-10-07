@@ -1,0 +1,225 @@
+@let f = content.form;
+
+<app-page-banner
+  [eyebrow]="content.banner.eyebrow"
+  [title]="content.banner.title"
+  [intro]="content.banner.intro"
+/>
+
+<section class="section" aria-labelledby="contact-details-title">
+  <div class="container contact">
+    <!-- Contact details -->
+    <div class="contact__info" appReveal>
+      <p class="eyebrow">{{ content.details.eyebrow }}</p>
+      <h2 id="contact-details-title">{{ content.details.title }}</h2>
+      <p class="text-muted">{{ content.details.intro }}</p>
+
+      <ul class="info-list" role="list">
+        <li class="info">
+          <app-hex-icon name="mail" />
+          <div>
+            <h3 class="info__label">{{ content.details.labels.email }}</h3>
+            @if (hasEmail) {
+              <a class="link" [href]="'mailto:' + contact.email">{{ contact.email }}</a>
+            } @else {
+              <p>{{ contact.email }}</p>
+            }
+          </div>
+        </li>
+        <li class="info">
+          <app-hex-icon name="phone" />
+          <div>
+            <h3 class="info__label">{{ content.details.labels.phone }}</h3>
+            @if (hasPhone) {
+              <a class="link" [href]="'tel:' + contact.phoneHref">{{ contact.phone }}</a>
+            } @else {
+              <p>{{ contact.phone }}</p>
+            }
+          </div>
+        </li>
+        <li class="info">
+          <app-hex-icon name="map-pin" />
+          <div>
+            <h3 class="info__label">{{ content.details.labels.address }}</h3>
+            <address>
+              @for (line of contact.address; track $index) {
+                <span>{{ line }}</span>
+              }
+            </address>
+          </div>
+        </li>
+        <li class="info">
+          <app-hex-icon name="clock" />
+          <div>
+            <h3 class="info__label">{{ content.details.labels.hours }}</h3>
+            <p>{{ contact.hours }}</p>
+          </div>
+        </li>
+      </ul>
+
+      <div class="contact__map">
+        @if (mapUrl(); as url) {
+          <iframe
+            [src]="url"
+            title="Map showing the AMCD office location"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        } @else {
+          <app-image-placeholder [label]="content.map.label" ratio="16 / 10" />
+        }
+      </div>
+    </div>
+
+    <!-- Form -->
+    <div class="card form-card" appReveal [revealDelay]="120">
+      @switch (status()) {
+        @case ('success') {
+          <div class="form-result" role="status">
+            <app-hex-icon name="check" size="lg" />
+            <h2>{{ f.success.title }}</h2>
+            <p class="text-muted">{{ f.success.text }}</p>
+            <button type="button" class="btn btn--secondary" (click)="startOver()">{{ f.success.again }}</button>
+          </div>
+        }
+        @case ('mailto') {
+          <div class="form-result" role="status">
+            <app-hex-icon name="mail" size="lg" />
+            <h2>{{ f.mailtoOpened.title }}</h2>
+            <p class="text-muted">{{ f.mailtoOpened.text }}</p>
+            <button type="button" class="btn btn--secondary" (click)="startOver()">{{ f.success.again }}</button>
+          </div>
+        }
+        @default {
+          <h2 class="form-card__title">{{ f.title }}</h2>
+          <p class="form-card__intro text-muted">{{ f.intro }}</p>
+
+          <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+            <div class="form-grid">
+              <div class="field">
+                <label for="cf-name">{{ f.labels.name }} <span aria-hidden="true">*</span></label>
+                <input
+                  id="cf-name"
+                  type="text"
+                  formControlName="name"
+                  autocomplete="name"
+                  required
+                  [placeholder]="f.placeholders.name"
+                  [attr.aria-invalid]="invalid('name')"
+                  [attr.aria-describedby]="invalid('name') ? 'cf-name-error' : null"
+                />
+                @if (invalid('name')) {
+                  <p class="field__error" id="cf-name-error">{{ f.errors.required }}</p>
+                }
+              </div>
+
+              <div class="field">
+                <label for="cf-email">{{ f.labels.email }} <span aria-hidden="true">*</span></label>
+                <input
+                  id="cf-email"
+                  type="email"
+                  formControlName="email"
+                  autocomplete="email"
+                  required
+                  [placeholder]="f.placeholders.email"
+                  [attr.aria-invalid]="invalid('email')"
+                  [attr.aria-describedby]="invalid('email') ? 'cf-email-error' : null"
+                />
+                @if (invalid('email')) {
+                  <p class="field__error" id="cf-email-error">
+                    {{ form.controls.email.hasError('required') ? f.errors.required : f.errors.email }}
+                  </p>
+                }
+              </div>
+
+              <div class="field">
+                <label for="cf-phone">{{ f.labels.phone }}</label>
+                <input
+                  id="cf-phone"
+                  type="tel"
+                  formControlName="phone"
+                  autocomplete="tel"
+                  [placeholder]="f.placeholders.phone"
+                  [attr.aria-invalid]="invalid('phone')"
+                  [attr.aria-describedby]="invalid('phone') ? 'cf-phone-error' : null"
+                />
+                @if (invalid('phone')) {
+                  <p class="field__error" id="cf-phone-error">{{ f.errors.phone }}</p>
+                }
+              </div>
+
+              <div class="field">
+                <label for="cf-company">{{ f.labels.company }}</label>
+                <input
+                  id="cf-company"
+                  type="text"
+                  formControlName="company"
+                  autocomplete="organization"
+                  [placeholder]="f.placeholders.company"
+                />
+              </div>
+
+              <div class="field field--full">
+                <label for="cf-service">{{ f.labels.service }}</label>
+                <div class="select">
+                  <select id="cf-service" formControlName="service">
+                    <option value="">{{ f.generalEnquiry }}</option>
+                    @for (s of services; track s.slug) {
+                      <option [value]="s.slug">{{ s.title }}</option>
+                    }
+                  </select>
+                  <app-icon name="chevron-down" />
+                </div>
+              </div>
+
+              <div class="field field--full">
+                <label for="cf-message">{{ f.labels.message }} <span aria-hidden="true">*</span></label>
+                <textarea
+                  id="cf-message"
+                  rows="6"
+                  formControlName="message"
+                  required
+                  [placeholder]="f.placeholders.message"
+                  [attr.aria-invalid]="invalid('message')"
+                  [attr.aria-describedby]="invalid('message') ? 'cf-message-error' : null"
+                ></textarea>
+                @if (invalid('message')) {
+                  <p class="field__error" id="cf-message-error">
+                    {{ form.controls.message.hasError('required') ? f.errors.required : f.errors.messageLength }}
+                  </p>
+                }
+              </div>
+
+              <!-- honeypot (hidden from people and assistive tech) -->
+              <div class="hp" aria-hidden="true">
+                <label for="cf-website">Website</label>
+                <input id="cf-website" type="text" formControlName="website" tabindex="-1" autocomplete="off" />
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn--primary" [disabled]="status() === 'sending'">
+                {{ status() === 'sending' ? f.sendingLabel : f.submitLabel }}
+                @if (status() !== 'sending') {
+                  <app-icon name="arrow-right" />
+                }
+              </button>
+            </div>
+
+            <div class="form-status" role="alert" aria-live="assertive">
+              @if (submitted() && form.invalid) {
+                <p class="form-status__msg form-status__msg--error">{{ f.errors.summary }}</p>
+              }
+              @if (status() === 'error') {
+                <p class="form-status__msg form-status__msg--error">{{ f.failure }}</p>
+              }
+              @if (status() === 'not-connected') {
+                <p class="form-status__msg form-status__msg--info">{{ f.notConnected }}</p>
+              }
+            </div>
+          </form>
+        }
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,29 @@
+<!-- 1. Page banner -->
+<app-page-banner
+  [eyebrow]="content.banner.eyebrow"
+  [title]="content.banner.title"
+  [intro]="content.banner.intro"
+/>
+
+<!-- 2. Services grid -->
+<section class="section" aria-labelledby="services-grid-title">
+  <div class="container">
+    <app-section-heading
+      [eyebrow]="content.grid.eyebrow"
+      [title]="content.grid.title"
+      [intro]="content.grid.intro"
+      headingId="services-grid-title"
+      appReveal
+    />
+    <ul class="services-grid" role="list">
+      @for (service of services; track service.slug; let i = $index) {
+        <li appReveal [revealDelay]="(i % 3) * 100">
+          <app-service-card [service]="service" linkLabel="View details" compact />
+        </li>
+      }
+    </ul>
+  </div>
+</section>
+
+<!-- 3. Call to action -->
+<app-cta-banner [title]="content.cta.title" [text]="content.cta.text" [button]="content.cta.button" />

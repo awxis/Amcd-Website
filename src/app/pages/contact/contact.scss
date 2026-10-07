@@ -1,0 +1,251 @@
+@use 'mixins' as *;
+
+:host {
+  display: block;
+}
+
+.contact {
+  display: grid;
+  gap: var(--space-5);
+  align-items: start;
+
+  @include up(lg) {
+    grid-template-columns: 1fr 1.25fr;
+    gap: var(--space-6);
+  }
+}
+
+// ---- Details -----------------------------------------------------------------
+.info-list {
+  display: grid;
+  gap: var(--space-3);
+  margin: var(--space-4) 0;
+}
+
+.info {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+
+  app-hex-icon {
+    flex-shrink: 0;
+  }
+
+  p,
+  address,
+  a {
+    margin: 0;
+    font-style: normal;
+  }
+
+  address {
+    display: grid;
+  }
+}
+
+.info__label {
+  margin: 0.25rem 0 0.125rem;
+  font-family: var(--font-body);
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.contact__map {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+
+  iframe {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border: 0;
+  }
+}
+
+// ---- Form card ---------------------------------------------------------------
+.form-card {
+  padding: clamp(1.5rem, 1rem + 2vw, 3rem);
+  border-top: 4px solid var(--color-primary);
+
+  // no hover lift on a form
+  &:hover,
+  &:focus-within {
+    transform: none;
+    box-shadow: var(--shadow-card);
+
+    &::before {
+      transform: scaleX(0);
+    }
+  }
+}
+
+.form-card__title {
+  font-size: var(--fs-h3);
+  margin-bottom: var(--space-1);
+}
+
+.form-card__intro {
+  margin-bottom: var(--space-4);
+  font-size: var(--fs-small);
+}
+
+.form-grid {
+  display: grid;
+  gap: var(--space-3);
+
+  @include up(md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.field {
+  display: grid;
+  gap: 0.375rem;
+  align-content: start;
+
+  label {
+    font-size: 0.9375rem;
+    font-weight: var(--fw-medium);
+    color: var(--color-text);
+
+    span {
+      color: var(--color-primary);
+    }
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    min-height: 48px;
+    padding: 0.75rem 1rem;
+    border: 1px solid #cfc3c3;
+    border-radius: var(--radius-sm);
+    background: var(--color-white);
+    font-size: 1rem;
+    color: var(--color-text);
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast);
+
+    &::placeholder {
+      color: #8a8a8a;
+    }
+
+    &:hover {
+      border-color: var(--color-primary-light);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(134, 46, 49, 0.18);
+    }
+
+    &[aria-invalid='true'] {
+      border-color: #b3261e;
+      background: #fffafa;
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 140px;
+  }
+}
+
+.field--full {
+  @include up(md) {
+    grid-column: 1 / -1;
+  }
+}
+
+.field__error {
+  margin: 0;
+  font-size: var(--fs-small);
+  font-weight: var(--fw-medium);
+  color: #b3261e;
+}
+
+.select {
+  position: relative;
+
+  select {
+    appearance: none;
+    padding-right: 2.75rem;
+    cursor: pointer;
+  }
+
+  app-icon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    width: 1.1rem;
+    height: 1.1rem;
+    transform: translateY(-50%);
+    color: var(--color-primary);
+    pointer-events: none;
+  }
+}
+
+// Honeypot: off-screen, not display:none (some bots skip hidden fields)
+.hp {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.form-actions {
+  margin-top: var(--space-4);
+
+  .btn {
+    width: 100%;
+
+    @include up(sm) {
+      width: auto;
+    }
+  }
+
+  .btn:disabled {
+    opacity: 0.7;
+    cursor: progress;
+    transform: none;
+  }
+}
+
+.form-status__msg {
+  margin: var(--space-3) 0 0;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-medium);
+}
+
+.form-status__msg--error {
+  background: #fdecea;
+  color: #8c1d18;
+}
+
+.form-status__msg--info {
+  background: var(--color-primary-tint);
+  color: var(--color-primary-dark);
+}
+
+// ---- Result state ------------------------------------------------------------
+.form-result {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  padding-block: var(--space-5);
+  text-align: center;
+
+  h2 {
+    font-size: var(--fs-h3);
+    margin: var(--space-1) 0 0;
+  }
+}

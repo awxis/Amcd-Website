@@ -1,0 +1,150 @@
+<div class="header container">
+  <a class="header__brand" routerLink="/">
+    <img
+      class="header__logo"
+      [src]="company.logo.src"
+      [width]="company.logo.width"
+      [height]="company.logo.height"
+      [alt]="company.logo.alt"
+    />
+  </a>
+
+  <button
+    type="button"
+    class="header__toggle"
+    [attr.aria-expanded]="menuOpen()"
+    aria-controls="primary-nav"
+    (click)="toggleMenu()"
+  >
+    <app-icon [name]="menuOpen() ? 'close' : 'menu'" />
+    <span class="visually-hidden">{{ menuOpen() ? 'Close menu' : 'Open menu' }}</span>
+  </button>
+
+  <nav id="primary-nav" class="header__nav" aria-label="Main navigation">
+    <ul class="header__links" role="list">
+      @for (link of links; track link.path) {
+        @if (link.path === '/services') {
+          <!-- ===== Desktop: hover / focus dropdown ===== -->
+          <li
+            #servicesItem
+            class="nav-item nav-item--dropdown only-desktop"
+            [class.is-open]="dropdownOpen()"
+            (mouseenter)="openDropdown()"
+            (mouseleave)="scheduleClose()"
+            (focusin)="openDropdown()"
+            (focusout)="onFocusOut($event, servicesItem)"
+          >
+            <a
+              class="header__link"
+              [routerLink]="link.path"
+              routerLinkActive="is-active"
+              ariaCurrentWhenActive="page"
+              aria-haspopup="true"
+              [attr.aria-expanded]="dropdownOpen()"
+            >
+              {{ link.label }}
+              <app-icon class="header__caret" name="chevron-down" />
+            </a>
+
+            <div class="mega" [class.is-open]="dropdownOpen()">
+              <ul class="mega__list" role="list">
+                @for (cat of servicesMenu; track cat.slug) {
+                  <li
+                    class="mega__item"
+                    [class.is-active]="activeCategory() === cat.slug"
+                    (mouseenter)="setActiveCategory(cat.slug)"
+                    (focusin)="setActiveCategory(cat.slug)"
+                  >
+                    <a class="mega__link" [routerLink]="cat.link" routerLinkActive="is-current">
+                      <span>{{ cat.label }}</span>
+                      <app-icon name="chevron-right" />
+                    </a>
+
+                    @if (activeCategory() === cat.slug && cat.items.length) {
+                      <ul class="flyout" role="list" [attr.aria-label]="cat.label + ' services'">
+                        @for (item of cat.items; track item.label) {
+                          <li>
+                            <a class="flyout__link" [routerLink]="item.link" [fragment]="item.fragment">
+                              {{ item.label }}
+                            </a>
+                          </li>
+                        }
+                      </ul>
+                    }
+                  </li>
+                }
+              </ul>
+            </div>
+          </li>
+
+          <!-- ===== Mobile: accordion ===== -->
+          <li class="nav-item only-mobile">
+            <div class="m-row">
+              <a class="header__link" [routerLink]="link.path" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }" ariaCurrentWhenActive="page">
+                {{ link.label }}
+              </a>
+              <button
+                type="button"
+                class="m-toggle"
+                [class.is-open]="mobileServicesOpen()"
+                [attr.aria-expanded]="mobileServicesOpen()"
+                aria-controls="m-services"
+                (click)="toggleMobileServices()"
+              >
+                <app-icon name="chevron-down" />
+                <span class="visually-hidden">Show {{ link.label }} submenu</span>
+              </button>
+            </div>
+
+            @if (mobileServicesOpen()) {
+              <ul id="m-services" class="m-list" role="list">
+                @for (cat of servicesMenu; track cat.slug) {
+                  <li>
+                    <div class="m-row m-row--sub">
+                      <a class="m-link" [routerLink]="cat.link">{{ cat.label }}</a>
+                      <button
+                        type="button"
+                        class="m-toggle"
+                        [class.is-open]="mobileCategory() === cat.slug"
+                        [attr.aria-expanded]="mobileCategory() === cat.slug"
+                        [attr.aria-controls]="'m-' + cat.slug"
+                        (click)="toggleMobileCategory(cat.slug)"
+                      >
+                        <app-icon name="chevron-down" />
+                        <span class="visually-hidden">Show {{ cat.label }} services</span>
+                      </button>
+                    </div>
+                    @if (mobileCategory() === cat.slug) {
+                      <ul class="m-items" [id]="'m-' + cat.slug" role="list">
+                        @for (item of cat.items; track item.label) {
+                          <li>
+                            <a class="m-item" [routerLink]="item.link" [fragment]="item.fragment">{{ item.label }}</a>
+                          </li>
+                        }
+                      </ul>
+                    }
+                  </li>
+                }
+              </ul>
+            }
+          </li>
+        } @else {
+          <li class="nav-item">
+            <a
+              class="header__link"
+              [routerLink]="link.path"
+              routerLinkActive="is-active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              ariaCurrentWhenActive="page"
+            >
+              {{ link.label }}
+            </a>
+          </li>
+        }
+      }
+    </ul>
+    <a class="btn btn--primary btn--sm header__cta" routerLink="/contact">
+      Contact Us
+    </a>
+  </nav>
+</div>

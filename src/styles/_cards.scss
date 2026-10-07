@@ -1,0 +1,40 @@
+// ==========================================================================
+// Card base (used by service cards, value cards, etc.)
+// ==========================================================================
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--space-4);
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  transition:
+    transform var(--transition-base),
+    box-shadow var(--transition-base);
+
+  // maroon top border revealed on hover
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 4px;
+    background: var(--color-primary);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--transition-base);
+  }
+
+  &:hover,
+  &:focus-within {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-card-hover);
+
+    &::before {
+      transform: scaleX(1);
+    }
+  }
+}

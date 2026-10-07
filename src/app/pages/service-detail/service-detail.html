@@ -1,0 +1,99 @@
+@let s = service();
+
+<!-- Banner -->
+<app-page-banner eyebrow="Our Services" [title]="s.title" [intro]="s.tagline">
+  <a class="back-link" routerLink="/services">
+    <app-icon name="arrow-right" />
+    {{ content.detail.backLabel }}
+  </a>
+</app-page-banner>
+
+<!-- Overview + on-this-page links -->
+<section class="section" aria-labelledby="overview-title">
+  <div class="container overview">
+    <div class="overview__text" appReveal>
+      <app-hex-icon [name]="s.icon" size="lg" />
+      <h2 id="overview-title">{{ s.title }}</h2>
+      @for (paragraph of s.overview; track $index) {
+        <p [class.lead]="$first" [class.text-muted]="!$first">{{ paragraph }}</p>
+      }
+    </div>
+
+    <nav class="card toc" aria-labelledby="toc-title" appReveal [revealDelay]="120">
+      <h3 class="toc__title" id="toc-title">{{ content.offeringsLabel }}</h3>
+      <ul class="toc__list" role="list">
+        @for (offering of s.offerings; track offering.title) {
+          <li>
+            @if (offering.link) {
+              <a class="toc__link" [routerLink]="['/services', offering.link]">
+                <app-icon name="chevron-right" />
+                {{ offering.title }}
+              </a>
+            } @else {
+              <a class="toc__link" [routerLink]="['/services', s.slug]" [fragment]="slugify(offering.title)">
+                <app-icon name="chevron-right" />
+                {{ offering.title }}
+              </a>
+            }
+          </li>
+        }
+      </ul>
+    </nav>
+  </div>
+</section>
+
+<!-- Offerings -->
+<section class="section section--tint" aria-labelledby="offerings-title">
+  <div class="container">
+    <app-section-heading
+      [eyebrow]="s.title"
+      [title]="content.offeringsLabel"
+      headingId="offerings-title"
+      appReveal
+    />
+    <ul class="offerings" role="list">
+      @for (offering of s.offerings; track offering.title; let i = $index) {
+        <li class="offering" [id]="slugify(offering.title)" appReveal [revealDelay]="(i % 2) * 100">
+          <span class="offering__number" aria-hidden="true">{{ (i + 1).toString().padStart(2, '0') }}</span>
+          <h3 class="offering__title">{{ offering.title }}</h3>
+          <p class="offering__text">{{ offering.description }}</p>
+          @if (offering.items?.length) {
+            <ul class="hex-list offering__items">
+              @for (item of offering.items; track item) {
+                <li>{{ item }}</li>
+              }
+            </ul>
+          }
+          @if (offering.link) {
+            <a class="link offering__more" [routerLink]="['/services', offering.link]">
+              {{ content.detail.learnMoreLabel }}
+              <span class="visually-hidden">about {{ offering.title }}</span>
+              <app-icon name="arrow-right" />
+            </a>
+          }
+        </li>
+      }
+    </ul>
+  </div>
+</section>
+
+<!-- Other services -->
+<section class="section" aria-labelledby="other-services-title">
+  <div class="container">
+    <app-section-heading
+      [eyebrow]="content.detail.otherServicesEyebrow"
+      [title]="content.detail.otherServicesTitle"
+      headingId="other-services-title"
+      appReveal
+    />
+    <ul class="grid grid--3" role="list">
+      @for (other of otherServices(); track other.slug; let i = $index) {
+        <li appReveal [revealDelay]="i * 100">
+          <app-service-card [service]="other" />
+        </li>
+      }
+    </ul>
+  </div>
+</section>
+
+<app-cta-banner [title]="content.cta.title" [text]="content.cta.text" [button]="{ label: content.cta.button.label, path: '/contact', queryParams: { service: s.slug } }" />

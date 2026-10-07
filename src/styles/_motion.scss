@@ -1,0 +1,26 @@
+// ==========================================================================
+// Scroll reveal (paired with the `appReveal` directive)
+// ==========================================================================
+@use 'mixins' as *;
+
+.reveal {
+  opacity: 0;
+  transform: translateY(var(--reveal-distance));
+  transition:
+    opacity var(--reveal-duration) var(--ease),
+    transform var(--reveal-duration) var(--ease);
+  will-change: opacity, transform;
+
+  &.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@include reduced-motion {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

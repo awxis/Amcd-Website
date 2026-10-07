@@ -1,0 +1,143 @@
+@use 'mixins' as *;
+
+:host {
+  display: block;
+}
+
+.footer {
+  position: relative;
+  background-color: var(--color-primary-darker);
+  @include hex-pattern('%23ffffff', 0.05, 96px);
+  color: var(--color-text-on-dark-muted);
+  font-size: 0.9375rem;
+}
+
+.footer__grid {
+  display: grid;
+  gap: var(--space-5);
+  padding-block: var(--space-6) var(--space-5);
+
+  @include up(md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include up(lg) {
+    grid-template-columns: 1.4fr 0.8fr 1.1fr 1.3fr;
+    gap: var(--space-4);
+  }
+}
+
+// Logo sits on a light badge so the maroon artwork stays visible.
+.footer__badge {
+  display: inline-flex;
+  padding: 0.75rem 1rem;
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+}
+
+.footer__logo {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
+.footer__description {
+  margin-top: var(--space-3);
+  max-width: 34ch;
+}
+
+.footer__heading {
+  position: relative;
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-1);
+  font-size: 1rem;
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.04em;
+  color: var(--color-white);
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 32px;
+    height: 2px;
+    background: var(--color-accent);
+  }
+}
+
+.footer__list {
+  display: grid;
+  gap: 0.625rem;
+}
+
+.footer__link {
+  color: var(--color-text-on-dark-muted);
+  background-image: linear-gradient(var(--color-accent), var(--color-accent));
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition:
+    color var(--transition-fast),
+    background-size var(--transition-base);
+
+  &:hover,
+  &:focus-visible {
+    color: var(--color-white);
+    background-size: 100% 1px;
+  }
+}
+
+.footer__intro {
+  margin-bottom: var(--space-3);
+}
+
+.footer__contact {
+  display: grid;
+  gap: var(--space-2);
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  app-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-top: 0.15em;
+    color: var(--color-accent);
+  }
+
+  address {
+    display: grid;
+    font-style: normal;
+  }
+}
+
+.footer__social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+
+  a {
+    color: var(--color-white);
+  }
+}
+
+.footer__bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  padding-block: var(--space-3);
+  font-size: var(--fs-small);
+
+  p {
+    margin: 0;
+    text-align: center;
+  }
+}
+
+a:focus-visible {
+  outline-color: var(--color-accent);
+}

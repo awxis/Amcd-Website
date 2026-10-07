@@ -1,0 +1,124 @@
+@let hero = content.hero;
+@let about = content.about;
+@let preview = content.servicesPreview;
+@let why = content.whyChooseUs;
+
+<!-- 1. Hero -->
+<section
+  class="hero on-dark"
+  aria-labelledby="hero-title"
+  [class.hero--photo]="!!hero.backgroundImage"
+  [style.background-image]="hero.backgroundImage ? 'url(' + hero.backgroundImage + ')' : null"
+>
+  <div class="container hero__inner">
+    <div class="hero__content">
+      <p class="eyebrow">{{ hero.eyebrow }}</p>
+      <h1 id="hero-title">{{ hero.title }}</h1>
+      <p class="hero__subtitle">{{ hero.subtitle }}</p>
+      <div class="btn-group">
+        <a class="btn btn--light" [routerLink]="hero.primaryCta.path">
+          {{ hero.primaryCta.label }}
+          <app-icon name="arrow-right" />
+        </a>
+        <a
+          class="btn btn--outline-light"
+          [routerLink]="hero.secondaryCta.path"
+          [fragment]="hero.secondaryCta.fragment"
+        >
+          {{ hero.secondaryCta.label }}
+        </a>
+      </div>
+    </div>
+    @if (!hero.backgroundImage) {
+      <app-hex-cluster class="hero__art" />
+    }
+  </div>
+</section>
+
+<!-- 2. About / intro -->
+<section class="section" aria-labelledby="about-title">
+  <div class="container about">
+    <div class="about__text" appReveal>
+      <p class="eyebrow">{{ about.eyebrow }}</p>
+      <h2 id="about-title">{{ about.title }}</h2>
+      @for (paragraph of about.paragraphs; track $index) {
+        <p [class.lead]="$first">{{ paragraph }}</p>
+      }
+      <ul class="about__highlights" role="list">
+        @for (item of about.highlights; track item) {
+          <li>
+            <app-icon name="check" />
+            {{ item }}
+          </li>
+        }
+      </ul>
+    </div>
+    <div class="about__media" appReveal [revealDelay]="120">
+      <app-image-placeholder [label]="about.imageLabel" [src]="about.imageSrc" [alt]="about.imageAlt" />
+    </div>
+  </div>
+</section>
+
+<!-- 3. Services preview -->
+<section class="section" aria-labelledby="services-preview-title">
+  <div class="container">
+    <app-section-heading
+      [eyebrow]="preview.eyebrow"
+      [title]="preview.title"
+      [intro]="preview.intro"
+      headingId="services-preview-title"
+      appReveal
+    />
+    <ul class="grid grid--3" role="list">
+      @for (service of featuredServices; track service.slug; let i = $index) {
+        <li appReveal [revealDelay]="(i % 3) * 100">
+          <app-service-card [service]="service" />
+        </li>
+      }
+    </ul>
+    <div class="section__actions" appReveal>
+      <a class="btn btn--primary" [routerLink]="preview.cta.path">
+        {{ preview.cta.label }}
+        <app-icon name="arrow-right" />
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- 4. Why choose us -->
+<section class="section section--tint why" aria-labelledby="why-title">
+  <div class="container">
+    <app-section-heading
+      [eyebrow]="why.eyebrow"
+      [title]="why.title"
+      [intro]="why.intro"
+      headingId="why-title"
+      appReveal
+    />
+    <ul class="grid grid--3" role="list">
+      @for (point of why.points; track point.title; let i = $index) {
+        <li appReveal [revealDelay]="(i % 3) * 100">
+          <div class="card why__item">
+            <app-hex-icon [name]="point.icon" />
+            <h3>{{ point.title }}</h3>
+            <p>{{ point.text }}</p>
+          </div>
+        </li>
+      }
+    </ul>
+
+    @if (content.stats.enabled) {
+      <dl class="stats" appReveal>
+        @for (stat of content.stats.items; track stat.label) {
+          <div class="stats__item">
+            <dt>{{ stat.label }}</dt>
+            <dd>{{ stat.value }}</dd>
+          </div>
+        }
+      </dl>
+    }
+  </div>
+</section>
+
+<!-- 5. Call to action -->
+<app-cta-banner [title]="content.cta.title" [text]="content.cta.text" [button]="content.cta.button" />

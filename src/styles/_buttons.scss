@@ -1,0 +1,117 @@
+// ==========================================================================
+// Buttons
+// ==========================================================================
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  min-height: 48px;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: var(--fw-semibold);
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast);
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  app-icon {
+    width: 1.125em;
+    height: 1.125em;
+    transition: transform var(--transition-fast);
+  }
+
+  &:hover app-icon {
+    transform: translateX(3px);
+  }
+}
+
+// Primary: maroon fill, white text.
+.btn--primary {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+
+  &:hover,
+  &:focus-visible {
+    background-color: var(--color-primary-dark);
+    box-shadow: 0 8px 20px rgba(134, 46, 49, 0.25);
+  }
+}
+
+// Secondary: maroon outline that fills on hover.
+.btn--secondary {
+  background-color: transparent;
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+
+  &:hover,
+  &:focus-visible {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+  }
+}
+
+// Light: for use on dark maroon backgrounds (hero, CTA).
+.btn--light {
+  background-color: var(--color-white);
+  color: var(--color-primary);
+
+  &:hover,
+  &:focus-visible {
+    background-color: var(--color-primary-tint);
+    color: var(--color-primary-dark);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+}
+
+// Outline light: secondary action on dark backgrounds.
+.btn--outline-light {
+  background-color: transparent;
+  border-color: rgba(255, 255, 255, 0.75);
+  color: var(--color-white);
+
+  &:hover,
+  &:focus-visible {
+    background-color: var(--color-white);
+    border-color: var(--color-white);
+    color: var(--color-primary);
+  }
+}
+
+.btn--sm {
+  min-height: 40px;
+  padding: 0.5rem 1.125rem;
+  font-size: 0.9375rem;
+}
+
+// Focus ring that stays visible on dark backgrounds.
+.on-dark .btn:focus-visible,
+.btn--light:focus-visible,
+.btn--outline-light:focus-visible {
+  outline-color: var(--color-accent);
+}
+
+.btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}

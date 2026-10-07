@@ -1,0 +1,88 @@
+<footer class="footer on-dark" id="contact" aria-labelledby="footer-contact-heading">
+  <div class="container footer__grid">
+    <div class="footer__about">
+      <a class="footer__badge" routerLink="/">
+        <img
+          class="footer__logo"
+          [src]="company.logo.src"
+          [width]="company.logo.width"
+          [height]="company.logo.height"
+          [alt]="company.logo.alt"
+          loading="lazy"
+        />
+      </a>
+      <p class="footer__description">{{ company.description }}</p>
+      @if (footer.social.length) {
+        <ul class="footer__social" role="list">
+          @for (item of footer.social; track item.url) {
+            <li>
+              <a [href]="item.url" target="_blank" rel="noopener noreferrer">{{ item.label }}</a>
+            </li>
+          }
+        </ul>
+      }
+    </div>
+
+    <nav class="footer__col" aria-labelledby="footer-links-heading">
+      <h2 class="footer__heading" id="footer-links-heading">{{ footer.quickLinksHeading }}</h2>
+      <ul class="footer__list" role="list">
+        @for (link of links; track link.path) {
+          <li><a class="footer__link" [routerLink]="link.path">{{ link.label }}</a></li>
+        }
+        <li><a class="footer__link" routerLink="/contact">Contact Us</a></li>
+      </ul>
+    </nav>
+
+    <nav class="footer__col" aria-labelledby="footer-services-heading">
+      <h2 class="footer__heading" id="footer-services-heading">{{ footer.servicesHeading }}</h2>
+      <ul class="footer__list" role="list">
+        @for (service of services; track service.slug) {
+          <li>
+            <a class="footer__link" [routerLink]="['/services', service.slug]">{{ service.title }}</a>
+          </li>
+        }
+      </ul>
+    </nav>
+
+    <div class="footer__col">
+      <h2 class="footer__heading" id="footer-contact-heading">{{ contact.heading }}</h2>
+      <p class="footer__intro">{{ contact.intro }}</p>
+      <ul class="footer__contact" role="list">
+        <li>
+          <app-icon name="mail" />
+          @if (hasEmail) {
+            <a class="footer__link" [href]="'mailto:' + contact.email">{{ contact.email }}</a>
+          } @else {
+            <span>{{ contact.email }}</span>
+          }
+        </li>
+        <li>
+          <app-icon name="phone" />
+          @if (hasPhone) {
+            <a class="footer__link" [href]="'tel:' + contact.phoneHref">{{ contact.phone }}</a>
+          } @else {
+            <span>{{ contact.phone }}</span>
+          }
+        </li>
+        <li>
+          <app-icon name="map-pin" />
+          <address>
+            @for (line of contact.address; track $index) {
+              <span>{{ line }}</span>
+            }
+          </address>
+        </li>
+        <li>
+          <app-icon name="clock" />
+          <span>{{ contact.hours }}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer__bottom">
+    <div class="container">
+      <p>&copy; {{ year }} {{ company.name }}</p>
+    </div>
+  </div>
+</footer>

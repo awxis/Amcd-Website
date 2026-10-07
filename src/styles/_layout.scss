@@ -1,0 +1,121 @@
+// ==========================================================================
+// Layout: container, sections, grids, lists, brand motif helpers
+// ==========================================================================
+@use 'mixins' as *;
+
+.container {
+  width: 100%;
+  max-width: calc(var(--container-max) + 2 * var(--container-padding));
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+// Sections alternate white / light maroon tint for rhythm.
+.section {
+  padding-block: var(--section-padding);
+  background-color: var(--color-bg);
+}
+
+.section--tint {
+  background-color: var(--color-primary-tint);
+}
+
+.section--dark {
+  position: relative;
+  background-color: var(--color-primary-darker);
+  color: var(--color-text-on-dark);
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: var(--color-text-on-dark);
+  }
+
+  .eyebrow {
+    color: var(--color-accent);
+  }
+
+  .lead,
+  p {
+    color: var(--color-text-on-dark-muted);
+  }
+}
+
+// Brand motif: faint hexagon pattern backgrounds.
+.hex-bg--light {
+  @include hex-pattern('%23862e31', 0.09, 84px);
+}
+
+.hex-bg--dark {
+  @include hex-pattern('%23ffffff', 0.08, 84px);
+}
+
+// Responsive auto grids.
+.grid {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.grid--2,
+.grid--3 {
+  grid-template-columns: 1fr;
+}
+
+@include up(md) {
+  .grid--2,
+  .grid--3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@include up(lg) {
+  .grid {
+    gap: var(--space-4);
+  }
+
+  .grid--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+// List with small hexagon bullets.
+.hex-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-1);
+
+  li {
+    position: relative;
+    padding-left: 1.5rem;
+  }
+
+  li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.5em;
+    width: 10px;
+    height: 11.55px;
+    background: var(--color-primary);
+    clip-path: $hex-clip;
+  }
+}
+
+.hex-list--accent li::before {
+  background: var(--color-accent);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}

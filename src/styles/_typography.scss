@@ -1,0 +1,113 @@
+// ==========================================================================
+// Typography
+// ==========================================================================
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-heading);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-heading);
+  color: var(--color-text);
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--fs-h1);
+  font-weight: var(--fw-bold);
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-bold);
+}
+
+h3 {
+  font-size: var(--fs-h3);
+}
+
+h4 {
+  font-size: var(--fs-h4);
+}
+
+p {
+  margin: 0 0 var(--space-2);
+  text-wrap: pretty;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+strong {
+  font-weight: var(--fw-semibold);
+}
+
+.lead {
+  font-size: var(--fs-lead);
+  color: var(--color-text-muted);
+}
+
+.text-muted {
+  color: var(--color-text-muted);
+}
+
+.text-accent {
+  color: var(--color-primary);
+}
+
+// Small uppercase label shown above section headings.
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-body);
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--color-primary);
+
+  // tiny gold hexagon marker
+  &::before {
+    content: '';
+    width: 8px;
+    height: 9.24px;
+    background: var(--color-accent);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    flex-shrink: 0;
+  }
+}
+
+// Links: maroon with animated underline on hover.
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-weight: var(--fw-semibold);
+  color: var(--color-primary);
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 2px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  padding-bottom: 2px;
+  transition:
+    background-size var(--transition-base),
+    color var(--transition-fast);
+
+  &:hover,
+  &:focus-visible {
+    color: var(--color-primary-dark);
+    background-size: 100% 2px;
+  }
+}
